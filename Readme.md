@@ -28,8 +28,19 @@ cd ./easy-rsa/easyrsa3
 ./easyrsa build-client-full client.vpn.domain.tld nopass
 ```
 
+## Supervisord
+
+Sample comfiguration you can find in `sample` directory.
+
 ## Container starting
 
 ```
-docker run -d --privileged -p 1194:1194/udp -v ~/tmp:/var/log/openvpn vpn:latest
+docker run -d --privileged \
+    -p 1194:1194/udp \
+    -p 9001:9001/tcp \
+    -v ~/tmp:/var/log/openvpn \
+    -v $PWD/sample:/etc/supervisor.d \
+    -e SUPERVISORD_USERNAME=admin \
+    -e SUPERVISORD_PASSWORD=password \
+    vpn:latest
 ```
